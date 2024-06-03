@@ -1,0 +1,22 @@
+on:
+  workflow_dispatch:
+
+name: Test env value propagation
+
+jobs:
+  automate-release-post:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      - uses: r-lib/actions/setup-r@v2
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+
+      - name: Check for new releases
+        run: |
+          writeLines(c("MY_VARIABLE=my_value"), con = Sys.getenv("GITHUB_ENV"), append = TRUE)
+        shell: Rscript {0}
+      - name: Use environment variable
+        run: echo ${{ env.MY_VARIABLE }}
