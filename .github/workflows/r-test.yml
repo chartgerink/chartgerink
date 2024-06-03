@@ -13,7 +13,9 @@ jobs:
       - name: Check for new releases
         run: |
           print(Sys.getenv("GITHUB_ENV"))
-          write(c("MY_VARIABLE=my_value"), file = Sys.getenv("GITHUB_ENV"), append = TRUE)
+          write(c("MY_VARIABLE=my_value", "TEST=ohyeah"), file = Sys.getenv("GITHUB_ENV"), append = TRUE)
         shell: Rscript {0}
       - name: Use environment variable
-        run: echo ${{ env.MY_VARIABLE }}
+        run: |
+          echo ${{ env.MY_VARIABLE }}
+          echo ${{ env.TEST }}
